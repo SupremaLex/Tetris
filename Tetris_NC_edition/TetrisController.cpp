@@ -7,6 +7,11 @@
 
 using namespace std;
 
+bool compare_coords(const pair<int, int>& p1, const pair<int, int>& p2)
+{
+	return p1.second < p2.second;
+}
+
 TetrisController::TetrisController(TetrisModel* _model): model(_model){}
 
 void TetrisController::KeyPressed(int btnCode)

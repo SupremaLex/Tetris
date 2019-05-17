@@ -18,9 +18,9 @@ TetrisFigure::TetrisFigure(const TetrisFigureType& type)
 
 TetrisModel::TetrisModel()
 {
-	array<CellStatus, HEIGHT> col;
-	col.fill(CELL_EMPTY);
-	game_field.fill(col);
+	for (int i = 0; i < WIDTH; i++)
+		for (int j = 0; j < HEIGHT; j++)
+				game_field[i][j] = CELL_EMPTY;
 	game_status = GAME_INIT;
 	game_score = 0;
 	game_speed = MIN_SPEED;
@@ -187,9 +187,9 @@ const GameField& TetrisModel::get_game_field() const
 vector<int> TetrisModel::get_filled_lines() const
 {
 	vector<int> filled_lines;
-	bool filled = true;
 	for (int i = 0; i < HEIGHT; i++)
 	{
+		bool filled = true;
 		for (int j = 0; j < WIDTH; j++)
 			if (game_field[j][i] == CELL_EMPTY)
 			{
@@ -198,7 +198,6 @@ vector<int> TetrisModel::get_filled_lines() const
 			}
 		if (filled)
 			filled_lines.push_back(i);
-		filled = true;
 	}
 	return filled_lines;
 }
