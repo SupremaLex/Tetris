@@ -5,7 +5,6 @@
 #include "TetrisView.h"
 #include "Config.h"
 
-
 class TetrisApp : public TetrisController, public TetrisView
 {
 public:
