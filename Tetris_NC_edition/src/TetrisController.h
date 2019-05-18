@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "BaseApp.h"
+#include "base/BaseApp.h"
 #include "TetrisModel.h"
 
 enum Direction {LEFT, RIGHT};

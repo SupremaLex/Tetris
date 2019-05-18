@@ -18,6 +18,23 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\base\BaseApp.h" />
+    <ClInclude Include="src\base\PerfomanceCounter.h" />
+    <ClInclude Include="src\Config.h" />
+    <ClInclude Include="src\Observer.h" />
+    <ClInclude Include="src\TetrisApp.h" />
+    <ClInclude Include="src\TetrisController.h" />
+    <ClInclude Include="src\TetrisModel.h" />
+    <ClInclude Include="src\TetrisView.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\base\BaseApp.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\TetrisController.cpp" />
+    <ClCompile Include="src\TetrisModel.cpp" />
+    <ClCompile Include="src\TetrisView.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{B55D4F5C-D18B-488F-86D8-B1E86304B5C0}</ProjectGuid>
@@ -114,23 +131,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="BaseApp.h" />
-    <ClInclude Include="Config.h" />
-    <ClInclude Include="Observer.h" />
-    <ClInclude Include="PerfomanceCounter.h" />
-    <ClInclude Include="TetrisApp.h" />
-    <ClInclude Include="TetrisController.h" />
-    <ClInclude Include="TetrisModel.h" />
-    <ClInclude Include="TetrisView.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="BaseApp.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="TetrisController.cpp" />
-    <ClCompile Include="TetrisModel.cpp" />
-    <ClCompile Include="TetrisView.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

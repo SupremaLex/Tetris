@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseApp.h"
+#include "base/BaseApp.h"
 #include "TetrisModel.h"
 
 class TetrisView : public Observer, public virtual BaseApp
