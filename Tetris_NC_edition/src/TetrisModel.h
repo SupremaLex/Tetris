@@ -13,6 +13,7 @@ enum FigureStatus { FIGURE_INIT, FIGURE_FALL, FIGURE_ACCELERATED, FIGURE_FELL };
 enum CellStatus {CELL_EMPTY, CELL_FILLED};
 
 typedef std::array<std::array<CellStatus, HEIGHT>, WIDTH> GameField;
+typedef std::vector<std::pair<int, int> > FigureCoords;
 
 class TetrisFigure
 {
@@ -22,7 +23,8 @@ public:
 private:
 	FigureStatus figure_status;
 	TetrisFigureType figure_type;
-	std::vector<std::pair<int, int> > figure_coords;
+	FigureCoords figure_current_coords;
+	FigureCoords figure_prev_coords;
 };
 
 
@@ -54,8 +56,9 @@ public:
 	TetrisFigureType get_current_figure_type() const;
 	TetrisFigureType get_next_figure_type() const;
 	void set_current_figure_type(const TetrisFigureType& type);
-	std::vector<std::pair<int, int> > get_current_figure_coords() const;
-	void set_current_figure_coords(const std::vector<std::pair<int, int> >& coords);
+	FigureCoords get_current_figure_current_coords() const;
+	void set_current_figure_current_coords(const FigureCoords& coords);
+	FigureCoords get_current_figure_prev_coords() const;
 	
 	// game field data
 	CellStatus get_cell_status(const int& x, const int& y) const;

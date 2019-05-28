@@ -13,7 +13,8 @@ TetrisFigure::TetrisFigure(const TetrisFigureType& type)
 {
 	figure_type = type;
 	figure_status = FIGURE_INIT;
-	figure_coords = { {0, 0} };
+	figure_current_coords = {};
+	figure_prev_coords = {};
 }
 
 TetrisModel::TetrisModel()
@@ -141,18 +142,24 @@ void TetrisModel::set_current_figure_type(const TetrisFigureType& type)
 	current_figure.figure_type = type;
 }
 
-vector<pair<int, int> > TetrisModel::get_current_figure_coords() const
+FigureCoords TetrisModel::get_current_figure_current_coords() const
 {
-	return current_figure.figure_coords;
+	return current_figure.figure_current_coords;
 }
 
-void TetrisModel::set_current_figure_coords(const vector<pair<int, int> >& coords)
+void TetrisModel::set_current_figure_current_coords(const FigureCoords& coords)
 {
 	for (const auto& coord : coords)
 		if (!BELONG_TO_FIELD(coord.first, coord.second))
 			throw exception("x must belong to [0, WIDTH), y must belong to [0, HEIGHT)");
-	current_figure.figure_coords = coords;
+	current_figure.figure_prev_coords = current_figure.figure_current_coords;
+	current_figure.figure_current_coords = coords;
 	notify_update();
+}
+
+FigureCoords TetrisModel::get_current_figure_prev_coords() const
+{
+	return current_figure.figure_prev_coords;
 }
 
 CellStatus TetrisModel::get_cell_status(const int& x, const int& y) const
@@ -208,7 +215,7 @@ TetrisFigure random_figure()
 	return TetrisFigure((TetrisFigureType)(std::rand() % N_FIGURES));
 }
 
-std::vector<pair<int, int> > get_default_figure_coords(int x0, int y0, TetrisFigureType type)
+FigureCoords get_default_figure_coords(int x0, int y0, TetrisFigureType type)
 {
 	if (x0 < 0 || y0 < 0)
 		throw exception("x must belong to [0, WIDTH], y must belong to [0, HEIGHT]");

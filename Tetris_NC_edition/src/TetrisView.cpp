@@ -13,7 +13,9 @@ void TetrisView::update()
 	if (model->get_game_status() == GAME_INIT)
 	{
 		draw_borders();
+		draw_field();
 		draw_score();
+		draw_next_figure();
 		string word = "> SCORE: ";
 		int size = word.size();
 		for (int i = 1; i <= size; i++)
@@ -23,11 +25,22 @@ void TetrisView::update()
 		for (int i = 1; i <= size1; i++)
 			SetChar(i, 2 + HEIGHT + HEIGHT / 8, word1[i - 1]);
 	}
-	draw_field();
-	draw_score();
-	draw_speed();
-	wipe_next_figure_field();
-	draw_next_figure();
+	if (model->get_current_figure_status() == FIGURE_INIT)
+	{
+		wipe_next_figure_field();
+		draw_next_figure();
+	}
+	if (model->get_current_figure_status() == FIGURE_FELL)
+	{
+		draw_field();
+		draw_score();
+	}
+	else
+	{
+		draw_current_figure();
+		draw_speed();
+	}
+
 	if (model->get_game_status() == GAME_FINISHED)
 		draw_game_over();
 }
@@ -55,9 +68,16 @@ void TetrisView::draw_field()
 				SetChar(i, j, ZERO_CHAR);
 }
 
+void TetrisView::draw_current_figure()
+{
+	for (const auto& coord : model->get_current_figure_prev_coords())
+		SetChar(coord.first + 1, coord.second + 1, ZERO_CHAR);
+	for (const auto& coord : model->get_current_figure_current_coords())
+		SetChar(coord.first + 1, coord.second + 1, BLOCK_CHAR);
+}
+
 void TetrisView::draw_next_figure()
 {
-
 	TetrisFigureType next_figure_type = model->get_next_figure_type();
 	int x = WIDTH + WIDTH / 4;
 	int y = HEIGHT / 2;
@@ -71,6 +91,7 @@ void TetrisView::draw_next_figure()
 		SetChar(coord.first, coord.second, BLOCK_CHAR);
 
 }
+
 void TetrisView::wipe_next_figure_field()
 {
 	int x = WIDTH + 2;

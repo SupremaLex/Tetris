@@ -74,8 +74,6 @@ void TetrisController::UpdateF(float delta_time)
 		}
 	}
 	model->increment_game_iteration();
-
-
 }
 
 void TetrisController::start()
@@ -85,7 +83,7 @@ void TetrisController::start()
 
 void TetrisController::down()
 {
-	vector<pair<int, int> > f_coords = model->get_current_figure_coords();
+	vector<pair<int, int> > f_coords = model->get_current_figure_current_coords();
 	for (const auto& coords : f_coords)
 		if (find(f_coords.begin(), f_coords.end(), make_pair(coords.first, coords.second + 1)) != f_coords.end())
 			continue;
@@ -104,10 +102,10 @@ void TetrisController::down()
 	// get new figure coordinates and fill them
 	for (auto& coords : f_coords)
 	{
-		new_coords.push_back(make_pair(coords.first, coords.second + 1));
+		new_coords.emplace_back(coords.first, coords.second + 1);
 		model->set_cell_status(coords.first, coords.second + 1, CELL_FILLED);
 	}
-	model->set_current_figure_coords(new_coords);
+	model->set_current_figure_current_coords(new_coords);
 
 }
 
@@ -124,7 +122,7 @@ void TetrisController::shift(Direction d)
 		offset = 1;
 	else
 		offset = -1;
-	vector<pair<int, int> > f_coords = model->get_current_figure_coords();
+	vector<pair<int, int> > f_coords = model->get_current_figure_current_coords();
 	for (const auto& coords : f_coords)
 		// if next point filled by current figure all it's ok, so ignore it
 		if (find(f_coords.begin(), f_coords.end(), make_pair(coords.first + offset, coords.second)) != f_coords.end())
@@ -138,10 +136,10 @@ void TetrisController::shift(Direction d)
 	vector<pair<int, int> > new_coords;
 	for (auto& coords : f_coords)
 	{
-		new_coords.push_back(make_pair(coords.first + offset, coords.second));
+		new_coords.emplace_back(coords.first + offset, coords.second);
 		model->set_cell_status(coords.first + offset, coords.second, CELL_FILLED);
 	}
-	model->set_current_figure_coords(new_coords);
+	model->set_current_figure_current_coords(new_coords);
 }
 
 void TetrisController::rotate()
@@ -149,7 +147,7 @@ void TetrisController::rotate()
 	// don't rotate square
 	if (model->get_current_figure_type() == O)
 		return;
-	vector<pair<int, int> > f_coords = model->get_current_figure_coords();
+	vector<pair<int, int> > f_coords = model->get_current_figure_current_coords();
 	vector<pair<int, int> > rotated;
 	pair<int, int> center = f_coords[f_coords.size() / 2];
 	for (const auto& coord : f_coords)
@@ -161,7 +159,7 @@ void TetrisController::rotate()
 			(model->get_cell_status(rot_x, rot_y) == CELL_EMPTY 
 			|| (model->get_cell_status(rot_x, rot_y) == CELL_FILLED
 			&& find(f_coords.begin(), f_coords.end(), make_pair(rot_x, rot_y)) != f_coords.end())))
-			rotated.push_back(make_pair(rot_x, rot_y));
+			rotated.emplace_back(rot_x, rot_y);
 		else
 			return;
 	}
@@ -169,13 +167,13 @@ void TetrisController::rotate()
 		model->set_cell_status(coords, CELL_EMPTY);
 	for (const auto& coords: rotated)
 		model->set_cell_status(coords.first, coords.second, CELL_FILLED);
-	model->set_current_figure_coords(rotated);
+	model->set_current_figure_current_coords(rotated);
 }
 
 void TetrisController::spawn_figure()
 {
 	auto coords = get_default_figure_coords(WIDTH / 2, 0, model->get_current_figure_type());
-	model->set_current_figure_coords(coords);
+	model->set_current_figure_current_coords(coords);
 	model->set_current_figure_status(FIGURE_FALL);
 	for (const auto& coord : coords)
 		model->set_cell_status(coord, CELL_FILLED);

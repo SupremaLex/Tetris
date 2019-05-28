@@ -11,6 +11,7 @@ public:
 private:
 	void draw_borders();
 	void draw_field();
+	void draw_current_figure();
 	void draw_next_figure();
 	void wipe_next_figure_field();
 	void draw_score();
